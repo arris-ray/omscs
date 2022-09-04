@@ -1,0 +1,76 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage{amsmath}
+\usepackage[a4paper, total={6in, 10in}]{geometry}
+\usepackage[ruled]{algorithm2e}
+\usepackage{caption}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+
+\section{Exercise 6.1}
+
+\subsection{Problem}
+
+A \textit{contiguous subsequence} of a list \textit{S} is a subsequence made up of consecutive elements of \textit{S}. For instance, if \textit{S} is 
+\begin{center}
+\(5, 15, -30, 10, -5, 40, 10\)
+\end{center}
+then \(15, -30, 10\) is a contiguous subsequence but \(5, 15, 40\) is not. Give a linear-time algorithm for the following task:
+\begin{center}
+\begin{itemize}
+    \item[] \textit{Input}: A list of numbers, \({a_1}, {a_2},\dots,{a_n}\).
+    \item[] \textit{Output}: The contiguous subsequence of maximum sum (a subsequence of length zero has sum zero).
+\end{itemize}
+\end{center}
+For the preceding example, the answer would be \(10, -5, 40, 10\), with a sum of \(55\).
+\begin{center}
+\begin{itemize}
+    \item[] \textit{Hint}: For each \(j\in\{1,2,\dots,n\}\), consider contiguous subsequences ending exactly at position j.
+\end{itemize}
+\end{center}
+
+\subsection{Solution}
+
+\begin{algorithm}
+    \SetKwInOut{KwSubDef}{Subproblem Definition}
+    \SetKwInOut{KwSubRec}{Subproblem Recurrence}
+    \captionsetup{labelsep=newline}
+    \caption{SMS1 (\(\mathcal{S}\)), finds the contiguous subsequence \(\mathcal{L}\) with maximum sum in a list.}
+    \KwIn{\(\mathcal{S}=\) A list of numbers, \({a_1}, {a_2},\dots,{a_n}\).}
+    \KwOut{The contiguous subsequence, \(\mathcal{L}\), with maximum sum.}
+    \KwSubDef{\(\textbf{s}(i)\) is the maximum sum of a contiguous subsequence ending at index \(i\).}
+    \KwSubRec{\(\textbf{s}(i) =
+        \begin{cases}
+            a_i,                   & \text{if } > \textbf{s}(i-1) + a_i \\
+            \textbf{s}(i-1) + a_i, & \text{otherwise }
+        \end{cases}
+        \)}
+
+    \(\textbf{l}[0] = 0\)
+
+    \(\textbf{s}[0] = 0\)
+
+    \For {\(x_i \in \mathcal{S}\)}
+    {
+        \eIf{\(x_i > \textbf{s}[i-1] + x_i\)}
+        {
+            \(\textbf{l}[i] = i\)
+
+            \(\textbf{s}[i] = x_i\)
+        } {
+            \(\textbf{l}[i] = \textbf{l}[i - 1]\)
+
+            \(\textbf{s}[i] = \textbf{s}[i-1] + x_i\)
+        }
+    }
+
+    \(i = max_i(\textbf{s})\)
+
+    \(j = \textbf{l}[i]\)
+
+    \(\mathcal{L} = \mathcal{S}[i:j]\)
+
+    \Return{\(\mathcal{L}\)}
+\end{algorithm}
+
+\end{document}
