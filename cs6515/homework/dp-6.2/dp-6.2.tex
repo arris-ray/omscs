@@ -1,0 +1,54 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage{amsmath}
+\usepackage[a4paper, total={6in, 10in}]{geometry}
+\usepackage[ruled]{algorithm2e}
+\usepackage{caption}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+
+\section{Exercise 6.2}
+
+\subsection{Problem}
+
+You are going on a long trip. You start on the road at mile post \(0\). Along the way there are n hotels, at mile posts \(a_1 < a_2 < \dots < a_n\), where each \(a_i\) is measured from the starting point. The only places you are allowed to stop are at these hotels, but you can choose which of the hotels you stop at. You must stop at the final hotel (at distance \(a_n\)), which is your destination.
+
+\par
+You'd ideally like to travel \(200\) miles a day, but this may not be possible (depending on the spacing of the hotels). If you travel \(x\) miles during a day, the penalty for that day is \((200 - x)^2\). You want to plan your trip so as to minimize the total penalty --- that is, the sum, over all travel days, of the daily penalties.
+
+\par
+Give an efficient algorithm that determines the optimal sequence of hotels at which to stop.
+
+\subsection{Solution}
+
+\begin{algorithm}
+    \SetKwInput{KwSubproblem}{Subproblem}
+    \SetKwInput{KwRecurrence}{Recurrence}
+    \SetKwInput{KwTime}{Time}
+    \caption{MTP1 (\(\mathcal{H}\)), minimizes the total penalty of hotel stops for a trip.}
+    \KwIn{\(\mathcal{H}=\) An ordered list of hotels' distances in miles, \({a_1}, {a_2},\dots,{a_n}\), from the start of your trip.}
+    \KwOut{An ordered list of hotels, \(\mathcal{L}\), to stop at for the planned trip that minimizes the total daily penalties.}
+    \KwSubproblem{\(P(i)\) is the minimum penalty for stopping at hotel \(a_i\).}
+    \KwRecurrence{
+        \(P(b,i) = min_{b \le j < i}(P(j) + (200 - (a_i - a_j)^2)\), \newline
+        where \(b\) is the previous best location which starts at 0. 
+        }
+    \KwTime{\(O(n^2)\) due to the nested for loop.}
+    \(b = 0\) \\
+    \(\mathcal{L} = []\) \\
+    \For{\(i = 1 \to n\)}
+    {
+        \(p_i = P(b,i)\) \\
+        \For{\(j = b \to i-1\)}
+        {
+            \(p_i = min(p_i, P(j) + (200 - (a_i - a_j)^2))\) \\
+            \If{\(p_i \neq P(b, i)\)} {
+                \(b = j\) \\
+                \(\mathcal{L} = \mathcal{L} + a_j\) \\
+            }
+        }
+    }
+    \Return{\(\mathcal{L}\)}
+\end{algorithm}
+
+\end{document}

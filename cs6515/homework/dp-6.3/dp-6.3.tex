@@ -1,0 +1,63 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage{amsmath}
+\usepackage[a4paper, total={7in, 10in}]{geometry}
+\usepackage[ruled]{algorithm2e}
+\usepackage{caption}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+
+\section{Exercise 6.3}
+
+\subsection{Problem}
+
+Yuckdonald's is considering opening a series of restaurants along Quaint Valley Highway (QVH). The \(n\) possible locations are along a straight line, and the distances of these locations from the start of QVH are, in miles and in increasing order, \(m_1, m_2, \dots, m_n\). The constraints are as follows:
+
+\begin{itemize}
+    \item At each location, Yuckdonald's may open at most one restaurant. The expected profit from opening a restaurant at location \(i\) is \(p_i\), where \(p_i > 0\) and \(i = 1,2,\dots,n\).
+    \item Any two restaurants should be at least \(k\) miles apart, where \(k\) is a positive integer.
+\end{itemize}
+    
+Give an efficient algorithm to compute the maximum expected total profit subject to the given constraints.
+
+\subsection{Solution}
+
+% Test Case
+% M =   1,  2,  3,   5,  8,   9, 10
+% P =  10,  5, 20,  50, 30,  35,  2
+% R = *10, 10, 20, *60, 90, *95, 95
+
+\begin{algorithm}
+    \SetKwInput{KwSubproblem}{Subproblem}
+    \SetKwInput{KwRecurrence}{Recurrence}
+    \SetKwInput{KwTime}{Time}
+    \caption{QVH1 (\(\mathcal{M, P}, k\)), maximizes the profit of selecting locations for Yuckdonald's franchises along QVH.}
+    \KwIn{
+        \(\mathcal{M} = \{{m_1}, {m_2},\dots,{m_n}\}\), an ordered list of locations in miles from the start of QVH.\newline
+        \(\mathcal{P} = \{{p_1}, {p_2},\dots,{p_n}\}\), a list of expected profits for locations \(m_{1 \to n}\).\newline
+        \(k\) is the minimum distance in miles between Yuckdonald's locations.
+    }
+    \KwOut{The maximum expected profit of franchise locations along QVH.}
+    \KwSubproblem{\(P(m_i)\) is the maximum profit of all franchise locations \(\le m_i\).}
+    \KwRecurrence{\(P(m_i) =
+        \begin{cases}
+            max(p_i, P(m_{i-1}), p_i + P(max(m_j) \le m_i - k)), & \text{if } m_i - m_{i-1} < k \\
+            P(m_{i-1}) + p_i, & \text{otherwise} \\
+        \end{cases}
+        \) 
+        } 
+    \KwTime{Worst case of \(O(n^2)\) due to \(\max(m_j)\) lookups within the for loop.} 
+    \(P[0] = 0\) \\
+    \For{\(m_i \in \mathcal{M}\)}
+    {
+        \eIf{\(m_i - m_{i-1} < k\)}
+        {
+            \(P[m_i] = max(p_i, P[m_{i-1}], p_i + P(max(m_j) \le m_i-k))\)
+        } {
+            \(P[m_i] = P[m_{i-1}] + p_i\)
+        }
+    }
+    \Return{\(P[m_n]\)}
+\end{algorithm}
+
+\end{document}
