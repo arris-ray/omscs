@@ -32,19 +32,21 @@ For the preceding example, the answer would be \(10, -5, 40, 10\), with a sum of
 \subsection{Solution}
 
 \begin{algorithm}
-    \SetKwInput{KwSubDef}{Subproblem Definition}
-    \SetKwInput{KwSubRec}{Subproblem Recurrence}
+    \SetKwInput{KwSubproblem}{Subproblem}
+    \SetKwInput{KwRecurrence}{Recurrence}
+    \SetKwInput{KwTime}{Time}
     \captionsetup{labelsep=newline}
     \caption{SMS1 (\(\mathcal{S}\)), finds the contiguous subsequence \(\mathcal{L}\) with maximum sum in a list.}
     \KwIn{\(\mathcal{S}=\) A list of numbers, \({a_1}, {a_2},\dots,{a_n}\).}
     \KwOut{The contiguous subsequence, \(\mathcal{L}\), with maximum sum.}
-    \KwSubDef{\(\textbf{s}(i)\) is the maximum sum of a contiguous subsequence ending at index \(i\).}
-    \KwSubRec{\(\textbf{s}(i) =
+    \KwSubproblem{\(\textbf{s}(i)\) is the maximum sum of a contiguous subsequence ending at index \(i\).}
+    \KwRecurrence{\(\textbf{s}(i) =
         \begin{cases}
             a_i,                   & \text{if } > \textbf{s}(i-1) + a_i \\
             \textbf{s}(i-1) + a_i, & \text{otherwise }
         \end{cases}
         \)}
+    \KwTime{\(O(n)\) for the single for loop.}
 
     \(\textbf{l}[0] = 0\)
 
