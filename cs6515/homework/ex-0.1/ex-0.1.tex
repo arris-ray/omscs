@@ -1,0 +1,59 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage{amsmath}
+\usepackage[a4paper, total={6in, 10in}]{geometry}
+\usepackage[ruled]{algorithm2e}
+\usepackage{caption}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+
+\section{Fibonacci Sequence}
+
+\begin{algorithm}
+    \SetKwInput{KwSubproblem}{Subproblem}
+    \SetKwInput{KwRecurrence}{Recurrence}
+    \SetKwInput{KwTime}{Time}
+    \caption{\(FIB1(n)\), finds the \(n^{th}\) number in the Fibonacci sequence.}
+    \KwIn{An integer \(n\) indicating which number in the Fibonacci sequence to return.}
+    \KwOut{The \(n^{th}\) Fibonacci number.}
+    \KwSubproblem{\(F(i)\) is the \(i^{th}\) Fibonacci number.}
+    \KwRecurrence{\(F_i =
+        \begin{cases}
+            0,& \text{if } i = 0 \\
+            1,& \text{if } i = 1 \\
+            F_{i-1} + F_{i-2},& \text{otherwise}
+        \end{cases}
+        \)} 
+    \KwTime{\(O(n)\)} 
+    \(F_0 = 0\) \\
+    \(F_1 = 1\) \\
+    \For{\(i = 2 \to n\)} {
+        \(F_i = F_{i-1} + F_{i-2}\)
+    }
+    \Return{\(F_n\)}
+\end{algorithm}
+
+\section{Longest Increasing Subsequence}
+
+\begin{algorithm}
+    \SetKwInput{KwSubproblem}{Subproblem}
+    \SetKwInput{KwRecurrence}{Recurrence}
+    \SetKwInput{KwTime}{Time}
+    \caption{\(LIS1(\mathcal{A})\) finds the longest increasing subsequence (LIS) in a series of numbers, \(\mathcal{A} = \{a_1,a_2,\dots,a_n\}\).}
+    \KwIn{An array, \(\mathcal{A}\), of unordered integers.}
+    \KwOut{The length of the LIS in \(\mathcal{A}\).}
+    \KwSubproblem{\(L(i)\) is the LIS of numbers in \(\{a_1,\dots,a_i\}\) which includes \(a_i\).}
+    \KwRecurrence{\(L(i) = 1 + max_{1 \le j < i-1}(L(j) : a_j < a_i \text{ and } j < i)\)}
+    \KwTime{\(O(n^2)\) due to the nested for loop.} 
+    \For{\(i = 1 \to n\)} {
+        \(L(i) = 1\) \\
+        \For{\(j = 1 \to (i-1)\)} {
+            \If{\(a_j < a_i \text{ and } L(i) < (1 + L(j))\)} {
+                \(L(i) = 1 + L(j)\)
+            }
+        }
+    }
+    \Return{\(max(L)\)}
+\end{algorithm}
+
+\end{document}
