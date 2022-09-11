@@ -17,23 +17,27 @@
     \KwIn{An integer \(n\) indicating which number in the Fibonacci sequence to return.}
     \KwOut{The \(n^{th}\) Fibonacci number.}
     \KwSubproblem{\(F(i)\) is the \(i^{th}\) Fibonacci number.}
-    \KwRecurrence{\(F_i =
+    \KwRecurrence{\(F(i) =
         \begin{cases}
             0,& \text{if } i = 0 \\
             1,& \text{if } i = 1 \\
-            F_{i-1} + F_{i-2},& \text{otherwise}
+            F(i-1) + F(i-2),& \text{otherwise}
         \end{cases}
         \)} 
     \KwTime{\(O(n)\)} 
-    \(F_0 = 0\) \\
-    \(F_1 = 1\) \\
+    \(F(0) = 0\) \\
+    \(F(1) = 1\) \\
     \For{\(i = 2 \to n\)} {
-        \(F_i = F_{i-1} + F_{i-2}\)
+        \(F(i) = F(i-1) + F(i-2)\)
     }
-    \Return{\(F_n\)}
+    \Return{\(F(n)\)}
 \end{algorithm}
 
 \section{Longest Increasing Subsequence}
+
+% Example
+% A = 5, 7, 4, -3, 9, 1, 10, 4, 5, 8, 9, 3
+% L = 1, 2, 1,  1, 3, 2,  4, 3, 4, 5, 6, 3
 
 \begin{algorithm}
     \SetKwInput{KwSubproblem}{Subproblem}
@@ -48,12 +52,57 @@
     \For{\(i = 1 \to n\)} {
         \(L(i) = 1\) \\
         \For{\(j = 1 \to (i-1)\)} {
-            \If{\(a_j < a_i \text{ and } L(i) < (1 + L(j))\)} {
+            \If{\(a_j < a_i\) and \(L(i) < (1 + L(j))\)} {
                 \(L(i) = 1 + L(j)\)
             }
         }
     }
     \Return{\(max(L)\)}
+\end{algorithm}
+
+\pagebreak
+
+\section{Longest Common Subsequence}
+
+% Example
+% X = "BCDBCDA"
+% Y = "ABECBAB"
+% L = 4 ("BCBA")
+
+\begin{algorithm}
+    \SetKwInput{KwSubproblem}{Subproblem}
+    \SetKwInput{KwRecurrence}{Recurrence}
+    \SetKwInput{KwTime}{Time}
+    \caption{\(LCS1(\mathcal{X, Y})\) finds the length of the longest string which is a subsequence of \(\mathcal{X} \text{ and } \mathcal{Y}\).}
+    \KwIn{Two strings, \(\mathcal{X \text{ and } Y}\).}
+    \KwOut{The length of the LCS between \(\mathcal{X \text{ and } Y}\).}
+    \KwSubproblem{For \(i \text{ and } j\) where \(0 \le i < n\) and \(0 \le j < n\), let \(L(i,j) = \text{length of LCS in } \{x_1,\dots,x_i\} \text{ and } \{y_1,\dots,y_i\}.\)}
+    \KwRecurrence{
+        \(L(i,j)_{i \ge 1, j \ge 1} = 
+            \begin{cases}
+                max(L(i,j-1), L(i-1,j)), & \text{if } x_i \neq y_j \\ 
+                1 + L(i-1,j-1), & \text{otherwise}
+            \end{cases}
+        \)}
+    \KwTime{\(O(n^2)\) for the nested for loop.} 
+    \For{\(i = 1 \to n\)} {
+        \(L_{i,0} = 0\)
+    }
+    \For{\(j = 1 \to n\)} {
+        \(L_{0,j} = 0\)
+    }
+    \For{\(i = 1 \to n\)}
+    {
+        \For{\(j = 1 \to n\)}
+        {
+            \eIf{\(x_i = y_j\)} {
+                \(L_{i,j} = 1 + L(i-1, j-1)\)
+            } {
+                \(L_{i,j} = max(L(i, j-1), L(i-1, j))\)
+            }
+        }
+    }
+    \Return{\(L(n,n)\)}
 \end{algorithm}
 
 \end{document}
