@@ -1,0 +1,66 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage{amsmath}
+\usepackage[a4paper, total={6in, 10in}]{geometry}
+\usepackage[ruled]{algorithm2e}
+\usepackage{caption}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+
+\begin{document}
+
+\section{Exercise 6.4}
+
+\subsection{Problem}
+
+You are given a string of \(n\) characters \(s[1 \dots n]\),which you believe to be a corrupted text document in which all punctuation has vanished (so that it looks something like “itwasthebestoftimes...”). You wish to reconstruct the document using a dictionary, which is available in the form of a Boolean function \(dict(\cdot)\): for any string \(w\),
+\begin{center}
+    \(
+        dict(w) = 
+        \begin{cases}
+            true,& \text{if } w \text{ is a valid word} \\
+            false,& \text{otherwise}
+        \end{cases}
+    \)
+\end{center}
+
+\begin{itemize}
+    \item[(a)] Give a dynamic programming algorithm that determines whether the string \(s[\cdot]\) can be reconstituted as a sequence of valid words. The running time should be at most \(O(n^2)\), assuming calls to \(dict\) take unit time.
+    \item[(b)] In the event that the string is valid, make your algorithm output the corresponding sequence of words.
+\end{itemize}
+
+\subsection{Solution}
+
+% Example
+% "itwasthebestoftimes"
+
+\begin{algorithm}
+    \SetKwInput{KwSubproblem}{Subproblem}
+    \SetKwInput{KwRecurrence}{Recurrence}
+    \SetKwInput{KwTime}{Time}
+    \caption{WRD1 (\(\mathcal{S}\)), returns \(s_1,\dots,s_n\) as a sequence of valid words or an empty array if the string is not a sequence of valid words.}
+    \KwIn{A string \(\mathcal{S}\) consisting of characters \(s_1, \dots, s_n\).}
+    \KwOut{A set of valid words \(w\) extracted from string \(\mathcal{S}\) or an empty array if not a sequence of valid words.}
+    \KwSubproblem{\(R(i)\) returns \emph{true} if \(s_1,\dots,s_i\) is a sequence of valid words; otherwise, an empty array.}
+    \KwRecurrence{\(R(i) = \bigvee\limits_{j=1}^{i} dict(s_j,\dots,s_i) \,\land R(j-1)\)} 
+    \KwTime{\(O(n^2)\) for the nested for loops.} 
+    \(R(0) = 0\) \\
+    \(W = []\) \\
+    \For{\(i = 1 \to n\)} 
+    {
+        \For{\(j = 1 \to i\)} 
+        {
+            \(R(i) = dict(s_j,\dots,s_i)\) \\
+            \If{\(R(i) \land R(j-1)\)}
+            {
+                \(W(j) = (s_j,\dots,s_i)\)
+            }
+        }
+    }
+    \eIf{\(R(n) = false\)}{
+        \Return []
+    }{
+        \Return W
+    }
+\end{algorithm}
+
+\end{document}
