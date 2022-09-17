@@ -1,0 +1,54 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage{amsmath}
+\usepackage[a4paper, total={6in, 10in}]{geometry}
+\usepackage[ruled]{algorithm2e}
+\usepackage{caption}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+
+\section{Exercise 6.8}
+
+\subsection{Problem}
+
+Given two strings \(x = x_1, x_2, \dots, x_n\) and \(y = y_1, y_2, \dots, y_m\), we wish to find the length of their \emph{longest common substring}, that is, the largest \(k\) for which there are indices \(i\) and \(j\) with \(x_i, x_{i+1}, \dots, x_{i+k-1} = y_j, y_{j+1}, \dots, y_{j+k-1}\). Show how to do this in time \(O(mn)\).
+
+\subsection{Solution}
+
+% Example
+% X = adfbfood
+% Y = foodabc
+% L = 4 (food)
+
+\begin{algorithm}
+    \SetKwInput{KwSubproblem}{Subproblem}
+    \SetKwInput{KwRecurrence}{Recurrence}
+    \SetKwInput{KwTime}{Time}
+    \caption{LCS2 (\(\mathcal{X, Y}\))}
+    \KwIn{Two strings, \(\mathcal{X \text{ and } Y}.\)}
+    \KwOut{Length of the longest common substring (LCS) between \(\mathcal{X \text{ and } Y}\).}
+    \KwSubproblem{For \(i \text{ and } j\) where \(0 \leq i \leq n\) and \(0 \leq j \leq n\), let \(L(i, j)\) = the length of the LCS between \(X \text{ and } Y\).}
+    \KwRecurrence{\(L(i,j)_{i \geq 1, j \geq 1} =
+        \begin{cases}
+            1 + L(i-1, j-1),&\text{if } x_i = y_j \\
+            0,&\text{otherwise}
+        \end{cases}
+        \)} 
+    \KwTime{\(O(nm)\)} 
+    \For{\(i = 1 \to n\)}
+    {
+        \For{\(j = 1 \to n\)}
+        {
+            \eIf{\(x_i = y_j\)}
+            {
+                \(L(i,j) = 1 + L(i-1, j-1)\)
+            }
+            {
+                \(L(i,j) = 0\)
+            }
+        }
+    }
+    \Return(\(max(L(i,j)_{i=1 \to n,j=1 \to n})\))
+\end{algorithm}
+
+\end{document}
