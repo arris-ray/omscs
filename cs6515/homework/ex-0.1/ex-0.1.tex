@@ -76,7 +76,7 @@
     \caption{\(LCS1(\mathcal{X, Y})\) finds the length of the longest string which is a subsequence of \(\mathcal{X} \text{ and } \mathcal{Y}\).}
     \KwIn{Two strings, \(\mathcal{X \text{ and } Y}\).}
     \KwOut{The length of the LCS between \(\mathcal{X \text{ and } Y}\).}
-    \KwSubproblem{For \(i \text{ and } j\) where \(0 \le i < n\) and \(0 \le j < n\), let \(L(i,j) = \text{length of LCS in } \{x_1,\dots,x_i\} \text{ and } \{y_1,\dots,y_i\}.\)}
+    \KwSubproblem{For \(i \text{ and } j\) where \(0 \le i < n\) and \(0 \le j < n\), let \(L(i,j) = \text{length of LCS in } \{x_1,\dots,x_i\} \text{ and } \{y_1,\dots,y_j\}.\)}
     \KwRecurrence{
         \(L(i,j)_{i \ge 1, j \ge 1} = 
             \begin{cases}
