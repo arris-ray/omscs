@@ -1,0 +1,66 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage{amsmath}
+\usepackage[a4paper, total={6in, 10in}]{geometry}
+\usepackage[ruled]{algorithm2e}
+\usepackage{caption}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+
+\section{Exercise 6.7}
+
+\subsection{Problem}
+
+A subsequence is \emph{palindromic} if it is the same whether read left to right or right to left. For instance, the sequence
+\begin{center}
+    \(A,C,G,T,G,T,C,A,A,A,A,T,C,G\)
+\end{center}
+has many palindromic subsequences, including \(A, C, G, C, A\) and \(A, A, A, A\) (on the other hand, the subsequence \(A, C, T\) is not palindromic). Devise an algorithm that takes a sequence \(x[1 \dots n]\) and returns the (length of the) longest palindromic subsequence. Its running time should be \(O(n^2)\).
+
+\subsection{Solution}
+
+\begin{algorithm}
+    \SetKwInput{KwSubproblem}{Subproblem}
+    \SetKwInput{KwRecurrence}{Recurrence}
+    \SetKwInput{KwTime}{Time}
+    \caption{LPS1(\(\mathcal{X}\)) finds the length of the longest palindromic subsequence (LPS) in the given string, \(\mathcal{X} = \{x_1,\dots,x_n\}\).}
+    \KwIn{A string, \(\mathcal{X}\), of length \(n\).}
+    \KwOut{The length of the LPS in the given string, \(\mathcal{X}\).}
+    \KwSubproblem{Let \(L(i,j)\) equal the LPS in the string \(x_i,\dots,x_j\).}
+    \KwRecurrence{L(i,j) = \(
+        \begin{cases}
+            1, &\text{if } i = j \\
+            2 + L(i+1, j-1), &\text{if } x_i = x_j \\
+            max(L(i-1, j),L(i,j+1)), &\text{otherwise}  
+        \end{cases}
+        \)} 
+    \KwTime{\(O(n^2)\) due to the nested for loops.} 
+    \(L(1 \to n, 1 \to n) = 0\) \\
+    \For{\(i = 1 \to n\)}
+    {
+        \For{\(j = i \to 1\)}
+        {
+            \uIf{\(i = j\)}
+            {
+                \(L(i,j) = 1\)
+            }
+            \uElseIf{\(x_i = x_j\)}
+            {
+                \(L(i,j) = 2 + L(i+1,j-1)\)
+            }
+            \Else
+            {
+                \(L(i,j) = max(L(i-1,j), L(i, j+1))\)
+            }
+        }
+    }
+    \Return \(L(n,n)\)
+\end{algorithm}
+
+\subsection{References}
+
+\begin{itemize}
+    \item https://www.interviewbit.com/blog/longest-palindromic-subsequence/
+\end{itemize}
+
+\end{document}
