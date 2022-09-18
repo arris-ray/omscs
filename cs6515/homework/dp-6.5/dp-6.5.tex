@@ -1,0 +1,77 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage{amsmath}
+\usepackage[a4paper, total={6in, 10in}]{geometry}
+\usepackage[ruled]{algorithm2e}
+\usepackage{caption}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+
+\section{Exercise 6.5}
+
+\subsection{Problem}
+
+\emph{Pebbling a checkerboard}. We are given a checkerboard which has 4 rows and \(n\) columns, and has an integer written in each square. We are also given a set of \(2n\) pebbles, and we want to place some or all of these on the checkerboard (each pebble can be placed on exactly one square) so as to maximize the sum of the integers in the squares that are covered by pebbles. There is one constraint: for a placement of pebbles to be legal, no two of them can be on horizontally or vertically adjacent squares (diagonal adjacency is fine).
+\begin{itemize}
+    \item[(a)] Determine the number of legal \emph{patterns} that can occur in any column (in isolation, ignoring the pebbles in adjacent columns) and describe these patterns.
+\end{itemize}
+
+Call two patterns compatible if they can be placed on adjacent columns to form a legal placement. Let us consider subproblems consisting of the first \(k\) columns \(1 \leq k \leq n\). Each subproblem can be assigned a type, which is the pattern occurring in the last column.
+\begin{itemize}
+    \item[(b)] Using the notions of compatibility and type, give an \(O(n)\)-time dynamic programming algorithm for computing an optimal placement.
+\end{itemize}
+
+\subsection{Solution}
+\subsubsection{(a) Legal Patterns}
+
+There are 8 legal patterns that can occur in any column:
+\begin{itemize}
+    \item \([-|-|-|-]\)
+    \item \([x|-|-|-]\)
+    \item \([-|x|-|-]\)
+    \item \([-|-|x|-]\)
+    \item \([-|-|-|x]\)
+    \item \([x|-|x|-]\)
+    \item \([x|-|-|x]\)
+    \item \([-|x|-|x]\)
+\end{itemize}
+
+\pagebreak
+\subsubsection{(b) Algorithm}
+
+\begin{algorithm}
+    \SetKwInput{KwSubproblem}{Subproblem}
+    \SetKwInput{KwRecurrence}{Recurrence}
+    \SetKwInput{KwTime}{Time}
+    \caption{PEB1 (\(\mathcal{N}\)) determines the optimal placement of \(\leq 2n\) pebbles on a checkerboard with \(\mathcal{N}\) columns and 4 rows.}
+    \KwIn{An integer, \(\mathcal{N}\), which indicates the number of columns on the checkerboard.}
+    \KwOut{The optimal placement of pebbles on a checkboard to maximize the sum of covered squares.}
+    \KwSubproblem{Let \(S(i, j)\) be the maximum cumulative sum for pebbles on the checkboard for columns \(1 \text{ through } i\) using placement pattern \(j\) for the final column.}
+    \KwRecurrence{\(S(i,j) = s(i,j) + max(S(i-1, j'))\), where \(s(i,j)\) is the sum of pebbling column \(i\) with pattern \(j\), \(1 \leq j' \leq 8\), and \(compatible(j, j')\).} 
+    \KwTime{\(O(n)\) due to the outer loop, the inner loops are constant time.} 
+    \For{\(i = 1 \to n\)}
+    {
+        \For{\(j = 1 \to 8\)}
+        {
+            \For{\(j' = 1 \to 8\)}
+            {
+                \If{\(compatible(j, j') \text{ and } S_{prev} < S(i-1, j')\)}
+                {
+                    \(j_{prev} = j'\) \\
+                    \(S_{prev} = S(i-1, j')\)
+                }
+            }
+            \(P(i,j) = j_{prev}\) \\
+            \(S(i,j) = s(i, j) + S_{prev}\)
+        }
+    }
+    \(j_{max} = max_j(S(n))\) \\
+    \For{\(i = (n-1) \to 1\)}
+    {
+        \(R(i) = j_{max}\) \\
+        \(j_{max} = P(i, j_{max})\) \\
+    }
+    \Return \(R\)
+\end{algorithm}
+
+\end{document}
