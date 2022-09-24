@@ -27,28 +27,27 @@ Give an efficient algorithm that determines the optimal sequence of hotels at wh
     \SetKwInput{KwTime}{Time}
     \caption{MTP1 (\(\mathcal{H}\)), minimizes the total penalty of hotel stops for a trip.}
     \KwIn{\(\mathcal{H}=\) An ordered list of hotels' distances in miles, \({a_1}, {a_2},\dots,{a_n}\), from the start of your trip.}
-    \KwOut{An ordered list of hotels, \(\mathcal{L}\), to stop at for the planned trip that minimizes the total daily penalties.}
-    \KwSubproblem{\(P(i)\) is the minimum penalty for stopping at hotel \(a_i\).}
-    \KwRecurrence{
-        \(P(b,i) = min_{b \le j < i}(P(j) + (200 - (a_i - a_j)^2)\), \newline
-        where \(b\) is the previous best location which starts at 0. 
-        }
-    \KwTime{\(O(n^2)\) due to the nested for loop.}
-    \(b = 0\) \\
-    \(\mathcal{L} = []\) \\
+    \KwOut{An ordered list of hotels, \(L\), to stop at for the planned trip that minimizes the total daily penalties.}
+    \KwSubproblem{Let \(L(i)\) be the starting hotel for the current leg of the trip. Let \(P(i) = 200 - (a_i - L(i))^2\), the penalty for stopping at hotel \(a_i\) starting from hotel \(L(i)\).}
+    \KwRecurrence{\(L(i) = 
+        \begin{cases}
+           i-1,&\text{if } P(i) > P(i-1) \text{ or } i = n \\
+           L(i-1),&\text{otherwise}
+        \end{cases}
+    \)}
+    \KwTime{\(O(n)\) due to the single for loop.}
+    \(L(0) = 0\) \\
     \For{\(i = 1 \to n\)}
     {
-        \(p_i = P(b,i)\) \\
-        \For{\(j = b \to i-1\)}
+        \eIf{\(P(i) > P(i-1) \text{ or } j = n\)}
         {
-            \(p_i = min(p_i, P(j) + (200 - (a_i - a_j)^2))\) \\
-            \If{\(p_i \neq P(b, i)\)} {
-                \(b = j\) \\
-                \(\mathcal{L} = \mathcal{L} + a_j\) \\
-            }
+            \(L(i) = i-1\) 
+        }
+        {
+            \(L(i) = L(i-1)\)
         }
     }
-    \Return{\(\mathcal{L}\)}
+    \Return{\(unique(L)\)}
 \end{algorithm}
 
 \end{document}
