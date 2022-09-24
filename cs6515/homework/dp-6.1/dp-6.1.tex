@@ -36,43 +36,18 @@ For the preceding example, the answer would be \(10, -5, 40, 10\), with a sum of
     \SetKwInput{KwRecurrence}{Recurrence}
     \SetKwInput{KwTime}{Time}
     \captionsetup{labelsep=newline}
-    \caption{SMS1 (\(\mathcal{S}\)), finds the contiguous subsequence \(\mathcal{L}\) with maximum sum in a list.}
+    \caption{SMS1 (\(\mathcal{S}\)), finds the contiguous subsequence with max sum in the given list, \(\mathcal{S}\).}
     \KwIn{\(\mathcal{S}=\) A list of numbers, \({a_1}, {a_2},\dots,{a_n}\).}
     \KwOut{The contiguous subsequence, \(\mathcal{L}\), with maximum sum.}
-    \KwSubproblem{\(\textbf{s}(i)\) is the maximum sum of a contiguous subsequence ending at index \(i\).}
-    \KwRecurrence{\(\textbf{s}(i) =
-        \begin{cases}
-            a_i,                   & \text{if } > \textbf{s}(i-1) + a_i \\
-            \textbf{s}(i-1) + a_i, & \text{otherwise }
-        \end{cases}
-        \)}
+    \KwSubproblem{Let \(S(i)\) be the maximum sum of a contiguous subsequence ending at \(a_i\).}
+    \KwRecurrence{\(S(i) = max(a_i, S(i-1) + a_i) \)}
     \KwTime{\(O(n)\) for the single for loop.}
 
-    \(\textbf{l}[0] = 0\)
-
-    \(\textbf{s}[0] = 0\)
-
-    \For {\(x_i \in \mathcal{S}\)}
+    \For {\(i = 1 \to n\)}
     {
-        \eIf{\(x_i > \textbf{s}[i-1] + x_i\)}
-        {
-            \(\textbf{l}[i] = i\)
-
-            \(\textbf{s}[i] = x_i\)
-        } {
-            \(\textbf{l}[i] = \textbf{l}[i - 1]\)
-
-            \(\textbf{s}[i] = \textbf{s}[i-1] + x_i\)
-        }
+        \(S(i) = max(a_i, S(i-1) + a_i)\)
     }
-
-    \(i = max_i(\textbf{s})\)
-
-    \(j = \textbf{l}[i]\)
-
-    \(\mathcal{L} = \mathcal{S}[i:j]\)
-
-    \Return{\(\mathcal{L}\)}
+    \Return{\(max(S)\)}
 \end{algorithm}
 
 \end{document}
