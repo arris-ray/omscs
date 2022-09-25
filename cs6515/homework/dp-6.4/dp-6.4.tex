@@ -71,7 +71,7 @@ Below are the tabular results of \(dict(s_j,\dots,s_i)\) where \(i\) is rows and
     \SetKwInput{KwTime}{Time}
     \caption{WRD1 (\(\mathcal{S}\)), returns \(s_1,\dots,s_n\) as a sequence of valid words or an empty array if the string is not a sequence of valid words.}
     \KwIn{A string \(\mathcal{S}\) consisting of characters \(s_1, \dots, s_n\).}
-    \KwOut{A set of valid words \(w\) extracted from string \(\mathcal{S}\) or an empty array if not a sequence of valid words.}
+    \KwOut{A set of valid words \(w\) extracted from string \(\mathcal{S}\) or \emph{false} if not a sequence of valid words.}
     \KwSubproblem{Let \(W(i)\) indicate if the given sequence of characters \(\{s_1,\dots,s_i\}\) is a valid set of words. Let \(W(0)=1\).}
     \KwRecurrence{\(W(i) = \bigvee\limits_{j=1}^{i} dict(s_j,\dots,s_i) \land W(j-1)\)} 
     \KwTime{\(O(n^2)\) for the nested for loops.} 
@@ -85,6 +85,7 @@ Below are the tabular results of \(dict(s_j,\dots,s_i)\) where \(i\) is rows and
     }
     \eIf{\(W(n) = true\)}
     {
+        \tcc{Use lookup table \(L\) to create the result set \(R\).} 
         \ForEach{\(i \in L\)}
         {
             \(append(R, \{s_{L(i)},\dots,s_i\})\)
@@ -92,6 +93,7 @@ Below are the tabular results of \(dict(s_j,\dots,s_i)\) where \(i\) is rows and
         \Return \(R\)
     }
     {
+        \tcc{The given string is not a valid set of words} 
         \Return \(false\)
     }
 \end{algorithm}
