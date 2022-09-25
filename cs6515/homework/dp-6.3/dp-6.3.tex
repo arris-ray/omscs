@@ -44,7 +44,7 @@ Give an efficient algorithm to compute the maximum expected total profit subject
     \(P(0) = 0\) \\
     \For{\(i = 1 \to n\)}
     {
-        \(P(i) = p_i + P(j : max(i) < i-k)\)
+        \(P(i) = p_i + P(j : max(i) <= i-k)\)
     }
     \Return{\(P(n)\)}
 \end{algorithm}
