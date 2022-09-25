@@ -25,16 +25,27 @@ Call two patterns compatible if they can be placed on adjacent columns to form a
 \subsubsection{(a) Legal Patterns}
 
 There are 8 legal patterns that can occur in any column:
-\begin{itemize}
-    \item \([-|-|-|-]\)
-    \item \([x|-|-|-]\)
-    \item \([-|x|-|-]\)
-    \item \([-|-|x|-]\)
-    \item \([-|-|-|x]\)
-    \item \([x|-|x|-]\)
-    \item \([x|-|-|x]\)
-    \item \([-|x|-|x]\)
-\end{itemize}
+\begin{center}
+\begin{tabular}{|c||c|c|c|c|}
+    \hline
+    1 & - & - & - & - \\
+    \hline
+    2 & x & - & - & -  \\
+    \hline
+    3 & - & x & - & -  \\
+    \hline
+    4 & - & - & x & -  \\
+    \hline
+    5 & - & - & - & x  \\
+    \hline
+    6 & x & - & x & -  \\
+    \hline
+    7 & x & - & - & x  \\
+    \hline
+    8 & - & x & - & x  \\
+    \hline
+\end{tabular}
+\end{center}
 
 \pagebreak
 \subsubsection{(b) Algorithm}
