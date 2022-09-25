@@ -27,10 +27,43 @@ You are given a string of \(n\) characters \(s[1 \dots n]\),which you believe to
     \item[(b)] In the event that the string is valid, make your algorithm output the corresponding sequence of words.
 \end{itemize}
 
-\subsection{Solution}
+\subsection{Example Case}
 
-% Example
-% "itwasthebestoftimes"
+Below are the tabular results of \(dict(s_j,\dots,s_i)\) where \(i\) is rows and \(j\) is columns for the given string "\emph{itwasthebest}".
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    & & \(1\) & \(2\) & \(3\) & \(4\) & \(5\) & \(6\) & \(7\) & \(8\) & \(9\) & \(10\) & \(11\) & \(12\) \\
+    \hline
+    & \((i/j)\) & \(i\) & \(t\) & \(w\) & \(a\) & \(s\) & \(t\) & \(h\) & \(e\) & \(b\) & \(e\) & \(s\) & \(t\) \\
+    \hline
+    1 & \(i\) & 1 & - & - & - & - & - & - & - & - & - & - & - \\
+    2 & \(t\) & 1 & 0 & - & - & - & - & - & - & - & - & - & - \\
+    3 & \(w\) & 0 & 0 & 0 & - & - & - & - & - & - & - & - & - \\
+    4 & \(a\) & 0 & 0 & 0 & 1 & - & - & - & - & - & - & - & - \\
+    5 & \(s\) & 0 & 0 & 1 & 1 & 0 & - & - & - & - & - & - & - \\
+    6 & \(t\) & 0 & 0 & 0 & 0 & 0 & 0 & - & - & - & - & - & - \\
+    7 & \(h\) & 0 & 0 & 0 & 0 & 0 & 0 & 0 & - & - & - & - & - \\
+    8 & \(e\) & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & - & - & - & - \\
+    9 & \(b\) & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & - & - & - \\
+    10 & \(e\) & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & - & - \\
+    11 & \(s\) & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & - \\
+    12 & \(t\) & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+    \hline
+\end{tabular}
+\end{center}
+
+\begin{itemize}
+\item Starting with \(i = 12\), \(W(12) = 1\) because \(dict(s_{j=9},\dots,s_{i=12}) = 1\) and ... 
+\item \(W(j-1) = W(8) = 1\) because \(dict(s_{j=6},\dots,s_{i=8}) = 1\) and ...
+\item \(W(j-1) = W(5) = 1\) because \(dict(s_{j=3},\dots,s_{i=5}) = 1\) and ...
+\item \(W(j-1) = W(2) = 1\) because \(dict(s_{j=1},\dots,s_{i=2}) = 1\) and ...
+\item \(W(j-1)=W(0)=1\).
+\end{itemize}
+
+\pagebreak
+\subsection{Solution}
 
 \begin{algorithm}
     \SetKwInput{KwSubproblem}{Subproblem}
@@ -39,26 +72,27 @@ You are given a string of \(n\) characters \(s[1 \dots n]\),which you believe to
     \caption{WRD1 (\(\mathcal{S}\)), returns \(s_1,\dots,s_n\) as a sequence of valid words or an empty array if the string is not a sequence of valid words.}
     \KwIn{A string \(\mathcal{S}\) consisting of characters \(s_1, \dots, s_n\).}
     \KwOut{A set of valid words \(w\) extracted from string \(\mathcal{S}\) or an empty array if not a sequence of valid words.}
-    \KwSubproblem{\(R(i)\) returns \emph{true} if \(s_1,\dots,s_i\) is a sequence of valid words; otherwise, an empty array.}
-    \KwRecurrence{\(R(i) = \bigvee\limits_{j=1}^{i} dict(s_j,\dots,s_i) \,\land R(j-1)\)} 
+    \KwSubproblem{Let \(W(i)\) indicate if the given sequence of characters \(\{s_1,\dots,s_i\}\) is a valid set of words. Let \(W(0)=1\).}
+    \KwRecurrence{\(W(i) = \bigvee\limits_{j=1}^{i} dict(s_j,\dots,s_i) \land W(j-1)\)} 
     \KwTime{\(O(n^2)\) for the nested for loops.} 
-    \(R(0) = 0\) \\
-    \(W = []\) \\
     \For{\(i = 1 \to n\)} 
     {
         \For{\(j = 1 \to i\)} 
         {
-            \(R(i) = dict(s_j,\dots,s_i)\) \\
-            \If{\(R(i) \land R(j-1)\)}
-            {
-                \(W(j) = (s_j,\dots,s_i)\)
-            }
+            \(W(i) = dict(s_j,\dots,s_i) \land W(j-1)\) \\
+            \(L(i) = min(L(i), j)\)
         }
     }
-    \eIf{\(R(n) = false\)}{
-        \Return []
-    }{
-        \Return W
+    \eIf{\(W(n) = true\)}
+    {
+        \ForEach{\(i \in L\)}
+        {
+            \(append(R, \{s_{L(i)},\dots,s_i\})\)
+        }
+        \Return \(R\)
+    }
+    {
+        \Return \(false\)
     }
 \end{algorithm}
 
