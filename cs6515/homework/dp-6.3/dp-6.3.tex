@@ -39,7 +39,7 @@ Give an efficient algorithm to compute the maximum expected total profit subject
     }
     \KwOut{The maximum expected profit of franchise locations along QVH.}
     \KwSubproblem{Let \(P(i)\) the maximum profit of all franchise locations up to and including \(m_i\). Let \(P(0) = 0\).}
-    \KwRecurrence{\(P(i) = p_i + P(j : max(i) < i-k)\)} 
+    \KwRecurrence{\(P(i) = p_i + P(j : max(j) <= i-k)\)} 
     \KwTime{\(O(n)\) due to single for loop.} 
     \(P(0) = 0\) \\
     \For{\(i = 1 \to n\)}
