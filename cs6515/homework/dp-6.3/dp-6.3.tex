@@ -20,12 +20,24 @@ Yuckdonald's is considering opening a series of restaurants along Quaint Valley 
     
 Give an efficient algorithm to compute the maximum expected total profit subject to the given constraints.
 
-\subsection{Solution}
+\subsection{Example Case}
 
-% Test Case
-% M =   1,  2,  3,   5,  8,   9, 10
-% P =  10,  5, 20,  50, 30,  35,  2
-% R = *10, 10, 20, *60, 90, *95, 95
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \hline
+    \(i\) & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\
+    \hline
+    \hline
+    \(m_i\) & \(1\) & \(2\) & \(3\) & \(5\) & \(8\) & \(9\) & \(10\) \\
+    \hline
+    \(p_i\) & \(10\) & \(5\) & \(20\) & \(50\) & \(30\) & \(35\) & \(2\) \\
+    \hline
+    \(P(i)\) & \boldmath\(10\) & \(10\) & \(20\) & \boldmath\(60\) & \(90\) & \boldmath\(95\) & \(95\) \\
+    \hline
+\end{tabular}
+\end{center}
+
+\subsection{Solution}
 
 \begin{algorithm}
     \SetKwInput{KwSubproblem}{Subproblem}
@@ -39,12 +51,12 @@ Give an efficient algorithm to compute the maximum expected total profit subject
     }
     \KwOut{The maximum expected profit of franchise locations along QVH.}
     \KwSubproblem{Let \(P(i)\) the maximum profit of all franchise locations up to and including \(m_i\). Let \(P(0) = 0\).}
-    \KwRecurrence{\(P(i) = p_i + P(j : max(j) <= i-k)\)} 
-    \KwTime{\(O(n)\) due to single for loop.} 
+    \KwRecurrence{\(P(i) = max(P(i-1), p_i + P(max(j : j \leq i-k)))\)} 
+    \KwTime{\(O(n^2)\) due to main loop over \(n\) elements plus the lookback within the loop.} 
     \(P(0) = 0\) \\
     \For{\(i = 1 \to n\)}
     {
-        \(P(i) = p_i + P(j : max(j) <= i-k)\)
+        \(P(i) = max(P(i-1), p_i + P(max(j : j \leq i-k)))\)
     }
     \Return{\(P(n)\)}
 \end{algorithm}
