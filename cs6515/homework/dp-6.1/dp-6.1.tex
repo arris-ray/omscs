@@ -35,19 +35,35 @@ For the preceding example, the answer would be \(10, -5, 40, 10\), with a sum of
     \SetKwInput{KwSubproblem}{Subproblem}
     \SetKwInput{KwRecurrence}{Recurrence}
     \SetKwInput{KwTime}{Time}
+    \SetKwInput{KwStorage}{Storage}
     \captionsetup{labelsep=newline}
     \caption{SMS1 (\(\mathcal{S}\)), finds the contiguous subsequence with max sum in the given list, \(\mathcal{S}\).}
     \KwIn{\(\mathcal{S}=\) A list of numbers, \({a_1}, {a_2},\dots,{a_n}\).}
     \KwOut{The maximum sum of a contiguous subsequence in list \(\mathcal{S}\).}
-    \KwSubproblem{Let \(S(i)\) be the maximum sum of a contiguous subsequence ending at \(a_i\).}
-    \KwRecurrence{\(S(i) = max(a_i, S(i-1) + a_i) \)}
+    \KwSubproblem{Let \(SUM(i)\) be the maximum sum of a contiguous subsequence which includes \(a_i\). Let \(SUB(i)\) be the subsequence with maximum sum that contains \(a_i\).}
+    \KwRecurrence{\( 
+        SUM(i) = max(a_i, SUM(i-1) + a_i) \newline
+        SUB(i) = 
+        \begin{cases}
+            [a_i], & \text{if } SUM(i) == a_i \\
+            SUB(i-1) + [a_i], & \text{otherwise}
+        \end{cases}
+    \)}
     \KwTime{\(O(n)\) for the single for loop.}
-
+    \KwStorage{\(O(n^3)\) for the \(SUM\) and \(SUB\) arrays.}
+    \(\linebreak\)
     \For {\(i = 1 \to n\)}
     {
-        \(S(i) = max(a_i, S(i-1) + a_i)\)
+        \(SUM(i) = max(a_i, SUM(i-1) + a_i)\) \\
+        \eIf{\(SUM(i) == a_i\)}
+        {
+            \(SUB(i) = [a_i]\)
+        }
+        {
+            \(SUB(i) = SUB(i-1) + [a_i]\)
+        }
     }
-    \Return{\(max(S)\)}
+    \Return{\(SUB(max_i(SUM))\)}
 \end{algorithm}
 
 \end{document}
