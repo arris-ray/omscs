@@ -41,14 +41,7 @@ For the preceding example, the answer would be \(10, -5, 40, 10\), with a sum of
     \KwIn{\(\mathcal{S}=\) A list of numbers, \({a_1}, {a_2},\dots,{a_n}\).}
     \KwOut{The maximum sum of a contiguous subsequence in list \(\mathcal{S}\).}
     \KwSubproblem{Let \(SUM(i)\) be the maximum sum of a contiguous subsequence which includes \(a_i\). Let \(SUB(i)\) be the subsequence with maximum sum that contains \(a_i\).}
-    \KwRecurrence{\( 
-        SUM(i) = max(a_i, SUM(i-1) + a_i) \newline
-        SUB(i) = 
-        \begin{cases}
-            [a_i], & \text{if } SUM(i) == a_i \\
-            SUB(i-1) + [a_i], & \text{otherwise}
-        \end{cases}
-    \)}
+    \KwRecurrence{\(SUM(i) = max(a_i, SUM(i-1) + a_i)\)}
     \KwTime{\(O(n)\) for the single for loop.}
     \KwStorage{\(O(n^3)\) for the \(SUM\) and \(SUB\) arrays.}
     \(\linebreak\)
