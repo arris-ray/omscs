@@ -54,8 +54,9 @@ Give an efficient algorithm to compute the maximum expected total profit subject
     \KwSubproblem{Let \(P(i)\) the maximum profit of all franchise locations up to and including \(m_i\). Let \(P(0) = 0\).}
     \KwRecurrence{\(P(i) = max(P(i-1), p_i + P(max(j : j \leq i-k)))\)} 
     \KwTime{\(O(n^2)\) due to main loop over \(n\) elements plus the lookback within the loop.} 
-    \(P(0) = 0\) \\
-    \For{\(i = 1 \to n\)}
+    \BlankLine
+    \(P(1) = p_1\) \\
+    \For{\(i = 2 \to n\)}
     {
         \(P(i) = max(P(i-1), p_i + P(max(j : j \leq i-k)))\)
     }

@@ -1,6 +1,6 @@
-'''
-' ALGORITHM
-'''
+###
+# ALGORITHM
+###
 
 def QVH1(M, P, k):
     # Validate we have anything to choose
@@ -10,7 +10,7 @@ def QVH1(M, P, k):
     profits = []
     for i, m in enumerate(M):
         # Base case
-        if (i == 0):
+        if i == 0:
             profits.append(P[i])
             continue
 
@@ -27,9 +27,9 @@ def QVH1(M, P, k):
     # Report max profit at the last location
     return profits[len(M)-1]
 
-'''
-' TEST CASES
-'''
+###
+# TEST CASES
+###
 
 print(QVH1([], [], 1)) # 0
 print(QVH1([1,3,5], [2,4,6], 3)) # 8
