@@ -1,0 +1,84 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage{amsmath}
+\usepackage[a4paper, total={6in, 10in}]{geometry}
+\usepackage[ruled]{algorithm2e}
+\usepackage{caption}
+\usepackage[utf8]{inputenc}
+\usepackage{url}
+
+\begin{document}
+
+\newcommand{\pluseq}{\mathrel{+}=}
+
+\section{Exercise 6.6}
+
+\subsection{Problem}
+
+Let us define a multiplication operation on three symbols \(a, b, c\) according to the following table; thus \(ab = b\), \(ba = c\), and so on. Notice that the multiplication operation defined by the table is neither associative nor commutative.
+
+\begin{center}
+\begin{tabular}{|c|ccc|}
+    \hline
+    & \(a\) & \(b\) & \(c\) \\
+    \hline
+    \(a\) & \(b\) & \(b\) & \(a\) \\
+    \(b\) & \(c\) & \(b\) & \(a\) \\
+    \(c\) & \(a\) & \(c\) & \(c\) \\
+    \hline
+\end{tabular}
+\end{center}
+
+Find an efficient algorithm that examines a string of these symbols, say \(bbbbac\), and decides whether or not it is possible to parenthesize the string in such a way that the value of the resulting expression is \(a\). For example, on input \(bbbbac\) your algorithm should return yes because \(((b(bb))(ba))c = a\).
+
+\subsection{Example Case}
+
+\begin{center}
+  \begin{tabular}{ |c | c || c | c | c | c | }
+    \hline 
+    & & 0 & 1 & 2 & 3 \\
+    \hline 
+    & & \(b\) & \(b\) & \(a\) & \(c\) \\
+    \hline 
+    \hline 
+    0 & \(b\) & \(b\) & \(b\) & \(a, c\) & \(a, c\) \\
+    \hline 
+    1 & \(b\) & - & \(b\) & \(c\) & \(c\) \\
+    \hline 
+    2 & \(a\) & - & - & \(a\) & \(a\) \\
+    \hline 
+    3 & \(c\) & - & - &  - & \(c\) \\
+    \hline 
+  \end{tabular}
+\end{center}
+
+\subsection{Solution}
+
+\begin{algorithm}
+    \SetKwInput{KwSubproblem}{Subproblem}
+    \SetKwInput{KwRecurrence}{Recurrence}
+    \SetKwInput{KwTime}{Time}
+    \caption{MUL1(\(\mathcal{S}\)), determines if there is a valid grouping of multiplication operations on the given string, \(\mathcal{S} = \{s_1,\dots,s_n\}\), that will result in the value \(a\).}
+    \KwIn{The input string, \(\mathcal{S}\).}
+    \KwOut{A boolean that indicates if there's a valid grouping of values in \(\mathcal{S}\) that will result in a multiplcation operation that yields \(a\).}
+    \KwSubproblem{Let \(M_{i,j}\) be the set of all results for multiplying every parenthetical permutation of \(S_i\) to \(S_j\). Let \(M_{i,i} = S_i\).}
+    \KwRecurrence{\(M_{i,j} = M_{i,i}^{i,j-1} \times M_{i+1,j}^{j,j}\)} 
+    \KwTime{?} 
+    \For{\(l = 1 \to n\)}
+    {
+        \For{\(i = 0 \to (n - l)\)}
+        {
+            \(j = i + l\) \\
+            \For{\(s = i \to j\)}
+            {
+                \(M_{i,j} \pluseq M_{i,s} \times M_{s+1,j}\) \\
+            }
+        }
+    }
+\end{algorithm}
+
+\subsection{References}
+\begin{itemize}
+\item https://avikdas.com/2019/04/25/dynamic-programming-deep-dive-chain-matrix-multiplication.html
+\end{itemize}
+
+\end{document}
