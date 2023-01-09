@@ -1,0 +1,58 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage{amsmath}
+\usepackage[a4paper, total={6in, 10in}]{geometry}
+\usepackage[ruled]{algorithm2e}
+\usepackage{caption}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+
+\begin{document}
+
+\section{Exercise 6.18}
+
+\subsection{Problem}
+
+Consider the following variation on the change-making problem (Exercise 6.17): you are given denominations \(x_1, x_2, \dots , x_n\), and you want to make change for a value \(v\), but you are allowed to use each denomination at most once. For instance, if the denominations are \(1, 5, 10, 20\), then you can make change for \(16 = 1 + 15\) and for \(31 = 1 + 10 + 20\) but not for \(40\) (because you can’t use \(20\) twice).
+
+\begin{itemize}[label={}]
+    \item \(Input\): Positive integers \(x_1, x_2, \dots , x_n\); another integer \(v\).
+    \item \(Question\): Can you make change for \(v\), using each denomination \(x_i\) at most once?
+\end{itemize}
+
+\subsection{Solution}
+
+\begin{algorithm}
+    \SetKwInput{KwSubproblem}{Subproblem}
+    \SetKwInput{KwRecurrence}{Recurrence}
+    \SetKwInput{KwTime}{Time}
+    \caption{CC\((C, v)\)}
+    \KwIn{A set of coin denominations, \(C\), and a currency value, \(v\).}
+    \KwOut{A boolean indication if it is possible to make change with a value of \(v\) using each denomination of coin in the set of denominations of \(C\) at most one time.}
+    \KwSubproblem{Let \(M(i, j)\) = \(true\) if it is possible to make exact change for the value \(v\) using only denominations in \(C_{1 \to i}\).}
+    \KwRecurrence{\(M(i, j) =
+        \begin{cases}
+            true,&\text{if }i \ge C_j \text{ and }M(i-C_j, j-i) = true\\ 
+            false,&\text{otherwise }
+        \end{cases}
+    \)} 
+    \KwTime{O(nV)} 
+    \(\space\)\\
+    \(M(0, 0 \to n) = true\)\\
+    \(\space\)\\
+    \For {\(i = 1 \to v\)}
+    {
+        \For {\(j = 1 \to n\)}
+        {
+            \eIf{\(i \ge C_j\) and \(M(i-C_j, j-1) = true\)}
+            {
+                \(M(i, j) = true\)
+            }
+            {
+                \(M(i, j) = false\)
+            }
+        }
+    }
+    \Return\(any(M(v))\)
+\end{algorithm}
+
+\end{document}
