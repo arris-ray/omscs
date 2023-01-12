@@ -27,32 +27,29 @@ Given an unlimited supply of coins of denominations \(x_1, x_2, \dots, x_n\), we
     \caption{CC\((C, v)\)}
     \KwIn{A set of \(n\) coin denominations, \(C\), and a currency value, \(v\).}
     \KwOut{A boolean indication if it is possible to make change with a value of \(v\) using an unlimited amount of coins in the set of denominations of \(C\).}
-    \KwSubproblem{Let \(M(v')\) = \(true\) if it is possible to make exact change for the value \(v\) using only denominations in \(C\).}
-    \KwRecurrence{\(M(v') =
+    \KwSubproblem{Let \(M(i)\) = \(true\) if it is possible to make exact change for the value \(i\) using only denominations in \(C\).}
+    \KwRecurrence{\(M(i) =
         \begin{cases}
-            true,&\text{if }M(v' - i) = true \text{ for } 1 \le i \le n\\
+            true,&\text{if }M(i - C_j) = true \text{ for } 1 \le j \le n\\
             false,&\text{otherwise }
         \end{cases}
     \)} 
     \KwTime{O(nV)} 
     \(\space\)\\
-    \(M(0 \to v, 0) = true\)\\
-    \(M(0, 0 \to n) = true\)\\
+    \(M(0) = true\)\\
+    \(M(1 \to v) = false\)\\
     \(\space\)\\
-    \For {\(v' = 1 \to v\)}
+    \For {\(i = 1 \to v\)}
     {
-        \For {\(i = 1 \to n\)}
+        \For {\(j = 1 \to n\)}
         {
-            \eIf{\(M(v'-i) = true\)}
+            \If{\(C_j <= i \text{ and } M(i-C_j) == true\)}
             {
-                \(M(v') = true\)
-            }
-            {
-                \(M(v') = false\)
+                \(M(i) = true\)
             }
         }
     }
-    \Return(\(M(v)\))
+    \Return\(M(v)\)
 \end{algorithm}
 
 \end{document}
